@@ -1,6 +1,8 @@
 # import pygame
 # from pygame.locals import *
 from sys import exit
+
+
 '''
 pygame.init()
 screen_size = (640, 480)
@@ -212,9 +214,61 @@ print('y_pred=',y_test.data)
 #include <iostream>
 #include <vector>
 #include <string>
-
+'''
 import torch
-ln = list(range(10))
-ln.remove(11)
+per_result = []
+def PrintLst(lst):
+    for i in lst:
+        print(i,end=" ")
+#find the more index
+lst_index = []
+def find_index(lst,ele):
+    for i in range(len(lst)):
+        if(lst[i] == ele):
+            lst_index.append(i)
+def per(lst,s,e):
+    if s == e:
+        per_result.append(list(lst))
+    else:
+        for i in range(s,e):
+            lst[i],lst[s] = lst[s],lst[i]#试探
+            per(lst,s+1,e)#递归
+            lst[i],lst[s] = lst[s],lst[i]#回溯
+result_tuple_f = []
+def get_f1_f2(lst,dict_a,dict_b):
+    sum_m1 = 0
+    sum_m2 = 0
+    f1 = ['' for i in range(len(lst))]
+    f2 = ['' for i in range(len(lst))]
+    for i in range(len(lst)):
+        ele = lst[i]
+        sum_m1 += dict_a[ele]
+        f1[i] = sum_m1
+        if(sum_m2 <= sum_m1):
+            sum_m2 = sum_m1+dict_b[ele]
+        else:
+            sum_m2 = sum_m2+dict_b[ele]
+        f2[i] = sum_m2
+    tuple_f = (f1,f2)
+    result_tuple_f.append(tuple_f)
+'''
+# lst_id = [1, 2, 3,4]
+#get the args
+# class Solution:
+html_doc = """<html><head><title>The Dormouse's story</title></head>
+<body>
+<p class="title"><b>The Dormouse's story</b></p>
 
-print(ln)
+<p class="story">Once upon a time there were three little sisters; and their names were
+<a href="http://example.com/elsie" class="sister" id="link1">Elsie</a>,
+<a href="http://example.com/lacie" class="sister" id="link2">Lacie</a> and
+<a href="http://example.com/tillie" class="sister" id="link3">Tillie</a>;
+and they lived at the bottom of a well.</p>
+
+<p class="story">...</p>
+"""
+
+from bs4 import BeautifulSoup
+soup = BeautifulSoup(html_doc, 'html.parser')
+
+print(soup.prettify())
